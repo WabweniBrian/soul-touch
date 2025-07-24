@@ -1,0 +1,545 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 238 94% 67%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 238 94% 67%;
+    --radius: 0.75rem;
+    --chart-1: 238 94% 67%;
+    --chart-2: 262 83% 58%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 238 94% 67%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 238 94% 67%;
+    --chart-1: 238 94% 67%;
+    --chart-2: 262 83% 58%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  body.modal {
+    @apply h-screen w-screen overflow-hidden;
+  }
+}
+
+/* Custom button variant styles */
+@layer components {
+  .btn-brand {
+    @apply from-brand-indigo-500 hover:from-brand-indigo-600 focus-visible:ring-brand-indigo-500 inline-flex h-10 items-center justify-center rounded-md bg-gradient-to-r to-brand-purple-600 px-4 py-2 text-sm font-medium text-white transition-all hover:to-brand-purple-700 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-brand-sm {
+    @apply h-9 rounded-md px-3 text-xs;
+  }
+
+  .btn-brand-lg {
+    @apply h-11 rounded-md px-8 text-base;
+  }
+}
+
+.shadow-glow {
+  box-shadow: 0 0 8px 2px hsl(230 83% 60% / 0.3);
+}
+
+/* ----------------------------------------------------Global Styles --------------------------------------------------- */
+html {
+  @apply scroll-smooth;
+  font-size: 93.75%;
+}
+
+::-webkit-scrollbar {
+  @apply h-[0.5rem] w-[0.5rem] bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded-xl bg-slate-400;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  @apply hidden;
+}
+
+.scrollbar-hover::-webkit-scrollbar-thumb {
+  @apply bg-transparent;
+}
+
+.scrollbar-hover:hover::-webkit-scrollbar-thumb {
+  @apply bg-[#c7c7c7];
+}
+
+button:disabled {
+  @apply pointer-events-none cursor-not-allowed opacity-50;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  @apply font-heading;
+}
+
+.glass-card {
+  @apply rounded-2xl bg-white/80 shadow-xl backdrop-blur-xl dark:bg-gray-800/80;
+}
+
+/* Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 15s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Gradient text */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #4361ee, #3a0ca3);
+}
+
+.text-gradient-alt {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #0bab7c, #4361ee);
+}
+
+/* Glassmorphism */
+.glass {
+  @apply border border-white/20 bg-white/10 backdrop-blur-md;
+}
+
+.dark .glass {
+  @apply border border-white/10 bg-black/10 backdrop-blur-md;
+}
+
+/* Hover card effect */
+.hover-card-animation {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hover-card-animation:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.1);
+}
+
+.dark .hover-card-animation:hover {
+  box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.7);
+}
+
+/* Blob animation */
+.blob {
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  animation: blob-animation 8s linear infinite;
+}
+
+@keyframes blob-animation {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+  25% {
+    border-radius: 45% 55% 65% 35% / 40% 50% 50% 60%;
+  }
+  50% {
+    border-radius: 50% 50% 55% 45% / 55% 45% 45% 45%;
+  }
+  75% {
+    border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%;
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+}
+
+/* Scroll reveal animations */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+}
+
+.reveal-left {
+  transform: translateX(-50px);
+}
+
+.reveal-left.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  transform: translateX(50px);
+}
+
+.reveal-right.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  transform: scale(0.9);
+}
+
+.reveal-scale.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Prose styles for legal pages */
+.prose h2 {
+  @apply mb-4 mt-8 text-xl font-semibold md:text-2xl;
+}
+
+.prose h3 {
+  @apply mb-2 mt-6 text-lg font-semibold;
+}
+
+.prose p {
+  @apply mb-4 text-muted-foreground;
+}
+
+.prose ul {
+  @apply mb-4 list-disc pl-6;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+.prose a {
+  @apply text-primary hover:underline;
+}
+
+.prose strong {
+  @apply font-semibold;
+}
+
+/* Custom styles for the template details page */
+
+/* Tip tap editor */
+
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  @apply font-bold;
+}
+
+.tiptap strong {
+  @apply !font-bold;
+}
+
+.tiptap h1 {
+  @apply mb-2 mt-4 text-4xl;
+}
+
+.tiptap h2 {
+  @apply mb-2 mt-4 text-3xl;
+}
+
+.tiptap h3 {
+  @apply mb-2 mt-4 text-2xl;
+}
+
+.tiptap h4 {
+  @apply mb-2 mt-4 text-xl;
+}
+
+.tiptap h5 {
+  @apply mb-2 mt-4 text-lg;
+}
+
+.tiptap h6 {
+  @apply mb-2 mt-4 text-base;
+}
+
+.tiptap ul {
+  @apply ml-8 list-disc;
+}
+.tiptap ol {
+  @apply ml-8 list-decimal;
+}
+.tiptap li {
+  @apply my-1 text-gray-700 dark:text-gray-200;
+}
+
+.tiptap blockquote {
+  @apply my-2;
+}
+
+.tiptap table {
+  @apply m-0 my-3 w-full border-collapse border;
+}
+
+.tiptap table td,
+.tiptap table th {
+  @apply relative box-border min-w-0 border px-2 py-1 align-top;
+}
+
+.tiptap table th {
+  @apply bg-accent/60 text-left font-bold;
+}
+
+.tiptap table .selectedCell:after {
+  @apply pointer-events-none absolute inset-0 z-10 bg-blue-500/20 bg-opacity-40 content-[""];
+}
+
+.tiptap table .column-resize-handle {
+  @apply pointer-events-none absolute bottom-0 right-0 top-0 w-4 bg-gray-300 dark:bg-gray-800;
+}
+
+.tiptap p {
+  @apply my-2 text-gray-700 dark:text-gray-200;
+}
+
+.tableWrapper {
+  @apply overflow-x-auto px-0 py-4;
+}
+
+.resize-cursor {
+  @apply cursor-col-resize;
+}
+
+.toc {
+  @apply rounded-lg border bg-accent/20 p-3;
+}
+
+.toc__list {
+  @apply p-0;
+}
+
+.toc__list::before {
+  @apply block text-lg font-semibold uppercase tracking-wider;
+  content: "Table of Contents";
+}
+
+.toc__item {
+  @apply my-1;
+}
+.toc__item a:hover {
+  @apply text-brand transition-colors;
+}
+
+.toc__item--1 {
+  @apply mt-3 !list-none !text-2xl first:mt-0;
+}
+
+.toc__item--2 {
+  @apply ml-4 !list-none text-lg;
+}
+
+.toc__item--3 {
+  @apply ml-8 !list-disc;
+}
+
+.toc__item--4 {
+  @apply ml-12;
+}
+
+.toc__item--5 {
+  @apply ml-16;
+}
+
+.toc__item--6 {
+  @apply ml-20;
+}
+
+[data-type="taskList"] {
+  @apply !list-none;
+}
+[data-type="taskList"] li {
+  @apply my-2 gap-x-1 flex-align-center;
+}
+
+[data-type="taskList"] li[data-checked="true"] p {
+  @apply line-through opacity-60;
+}
+
+div[role="textbox"] {
+  min-height: 300px !important;
+  outline: none !important;
+}
+
+.post-content h1 {
+  @apply mb-4 mt-6 text-2xl font-bold;
+}
+
+.post-content h2 {
+  @apply mb-4 mt-6 text-xl font-bold;
+}
+
+.post-content h3 {
+  @apply mb-3 mt-5 text-lg font-semibold;
+}
+
+.post-content h4 {
+  @apply mb-2 mt-4 text-base font-semibold;
+}
+
+.post-content p {
+  @apply mb-4 leading-7 text-gray-700 dark:text-gray-300;
+}
+
+.post-content ul {
+  @apply mb-4 list-disc pl-6;
+}
+
+.post-content ol {
+  @apply mb-4 list-decimal pl-6;
+}
+
+.post-content li {
+  @apply mb-2;
+}
+
+.post-content a {
+  @apply text-primary underline underline-offset-2;
+}
+
+.post-content a:hover {
+  @apply no-underline;
+}
+
+.post-content pre {
+  @apply mb-4 overflow-x-auto rounded-md bg-muted p-4 font-mono text-sm leading-6;
+}
+
+.post-content code {
+  @apply rounded bg-muted px-1 py-0.5 font-mono text-sm;
+}
+
+.post-content pre code {
+  @apply rounded-none bg-transparent p-0 text-inherit;
+}
+
+.post-content blockquote {
+  @apply my-4 border-l-4 border-brand pl-4 italic;
+}
+
+.post-content pre code {
+  @apply block whitespace-pre;
+}
+
+pre {
+  @apply rounded-lg !bg-[#19191d] p-3 text-gray-400 dark:border;
+  font-family: "FiraCode", monospace;
+  padding: 0.75rem 1rem;
+}
+
+pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.8rem;
+  padding: 0;
+}

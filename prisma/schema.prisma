@@ -1,0 +1,103 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  Staff
+  Admin
+}
+
+enum AttendanceStatus {
+  Present
+  Absent
+  Late
+}
+
+model User {
+  id                   String    @id @default(uuid())
+  name                 String // User name
+  email                String    @unique
+  password             String?
+  emailVerified        DateTime?
+  isEmailVerified      Boolean?  @default(false)
+  image                String?
+  hasPurchased         Boolean   @default(false)
+  isActive             Boolean   @default(true)
+  role                 UserRole  @default(Staff)
+  lastLogin            DateTime?
+  verificationCode     String?
+  resetPasswordToken   String?   @unique
+  resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  staff Staff? // One-to-one relation with Staff
+
+  notifications Notification[]
+  attendances   Attendance[] // One-to-many relation with Attendance
+
+  @@index([role, isActive])
+  @@index([hasPurchased])
+  @@index([lastLogin])
+  @@index([name])
+}
+
+model Staff {
+  id          String       @id @default(uuid())
+  userId      String?      @unique // One-to-one relation with User
+  firstName   String // Staff first name, e.g., "Ernest"
+  middleName  String? // Staff middle name, e.g., "K."
+  lastName    String // Staff last name, e.g., "Kutesa"
+  department  String // Department, e.g., "Science"
+  phone       String? // Phone number, e.g., "+256123456789"
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  attendances Attendance[] // One-to-many relation with Attendance
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([department]) // Index for department-based queries
+}
+
+model Attendance {
+  id         String           @id @default(uuid())
+  staffId    String
+  checkIn    DateTime // Check-in time, e.g., "2025-07-24T08:00:00.000Z"
+  checkOut   DateTime? // Check-out time, e.g., "2025-07-24T16:00:00.000Z"
+  status     AttendanceStatus @default(Present) // Status: Present, Absent, Late
+  notes      String? // Additional notes, e.g., "Late due to traffic"
+  markedById String? // Staff ID of the person who marked the attendance
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  staff    Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  markedBy User? @relation(fields: [markedById], references: [id], onDelete: SetNull)
+
+  @@index([staffId]) // Index for staff-based queries
+  @@index([checkIn]) // Index for date-based queries
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String?
+  type      String
+  isRead    Boolean? @default(false)
+  isAdmin   Boolean? @default(false)
+  title     String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@index([isAdmin])
+  @@index([createdAt])
+  @@index([type])
+}
