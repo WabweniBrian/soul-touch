@@ -1,5 +1,6 @@
 "use server";
 
+import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NotificationSchemaType } from "@/types";
 import { revalidatePath } from "next/cache";
@@ -261,12 +262,24 @@ export const markNotificationsRead = async (notificationIds: string[]) => {
 };
 
 export const markAllNotificationsRead = async () => {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
   try {
-    await prisma.notification.updateMany({
-      where: { isAdmin: true },
-      data: { isRead: true },
-    });
-
+    if (user.role === "Admin") {
+      // Admin marks all admin notifications as read
+      await prisma.notification.updateMany({
+        where: { isAdmin: true },
+        data: { isRead: true },
+      });
+    } else {
+      // Staff marks their own notifications (isAdmin: false, userId: user.id)
+      await prisma.notification.updateMany({
+        where: { isAdmin: false, userId: user.id },
+        data: { isRead: true },
+      });
+    }
     revalidatePath("");
     return { success: true };
   } catch (error: any) {
