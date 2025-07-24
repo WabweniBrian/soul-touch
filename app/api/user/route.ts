@@ -15,8 +15,6 @@ export async function GET() {
     email: user.email,
     image: user.image,
     role: user.role,
-    hasPurchased: user.hasPurchased,
-    purchasedTemplates: user.purchasedTemplates,
   });
 }
 
