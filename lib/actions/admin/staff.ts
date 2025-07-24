@@ -205,26 +205,32 @@ export const updateStaff = async (
 ) => {
   try {
     // Update staff fields
-    const staffUpdate: any = { ...data };
-    delete staffUpdate.user;
     await prisma.staff.update({
       where: { id: staffId },
-      data: staffUpdate,
+      data: {
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        department: data.department,
+        phone: data.phone,
+      },
     });
-    // Update user if provided
-    if (data.user) {
-      const staff = await prisma.staff.findUnique({
-        where: { id: staffId },
-        select: { userId: true },
+
+    const staff = await prisma.staff.findUnique({
+      where: { id: staffId },
+      select: { userId: true },
+    });
+
+    if (staff?.userId) {
+      await prisma.user.update({
+        where: { id: staff.userId },
+        data: {
+          name: data.user?.name,
+          email: data.user?.email,
+        },
       });
-      if (staff?.userId) {
-        const userUpdate: any = { ...data.user };
-        await prisma.user.update({
-          where: { id: staff.userId },
-          data: userUpdate,
-        });
-      }
     }
+
     revalidatePath("/staff");
     return { success: true };
   } catch (error: any) {
